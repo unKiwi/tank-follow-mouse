@@ -48,6 +48,7 @@ tank = Struct()
 tank.pos = Struct()
 tank.pos.x = int(pyautogui.size().width * random.random())
 tank.pos.y = int(pyautogui.size().height * random.random())
+tank.pos.chenille = []
 # define direction
 tank.direction = Struct()
 tank.direction.body = random.randint(0, 359)
@@ -106,9 +107,6 @@ class Invisible(QMainWindow):
         painter.rotate(-(tank.direction.canon - tank.direction.body))
         painter.rotate(-tank.direction.body)
         painter.translate(-tank.pos.x, -tank.pos.y)
-
-        painter.setBrush(QColor(55, 56, 62))
-        painter.drawRect(-dimen.unit * 25, -dimen.unit * 30, dimen.unit * 50, dimen.unit * 60)
 
     def my_operations(self):
         # update tank
