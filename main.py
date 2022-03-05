@@ -2,6 +2,7 @@
 # import win32api
 import sys
 import time
+import keyboard
 import mouse
 import pyautogui
 import random
@@ -19,9 +20,11 @@ class Struct(object): pass
 
 # define config
 conf = Struct()
-conf.dist = 200
+conf.dist = 400
 conf.newGaz = 0.3
 conf.newChenille = 0.15
+conf.addTankKey = "a"
+conf.rmTankKey = "e"
 conf.color = Struct()
 conf.color.contrast = 20
 conf.color.chenille = Struct()
@@ -34,6 +37,9 @@ conf.color.canon = QColor(34, 37, 42)
 #     device = win32api.EnumDisplayDevices()
 #     settings = win32api.EnumDisplaySettings(device.DeviceName, -1)
 #     return getattr(settings, 'DisplayFrequency')
+
+# def rebond(angleIncident, angleWall):
+#     print(angleIncident, angleWall)
 
 def distance(position1, position2):
     return math.sqrt(math.pow(position1.x - position2.x, 2) + math.pow(position1.y - position2.y, 2))
@@ -311,16 +317,26 @@ class Invisible(QMainWindow):
             lsObus[i].pos.x += moveX
             lsObus[i].pos.y -= moveY
 
-            if (lsObus[i].pos.x < 0 or lsObus[i].pos.x > pyautogui.size().width or lsObus[i].pos.y < 0 or lsObus[i].pos.y > pyautogui.size().height):
+            # rebond
+            # if (lsObus[i].nbRebond <= 0):
+                # lsObus.pop(i)
+                # break
+            
+            if (lsObus[i].pos.x < 0 or lsObus[i].pos.x > pyautogui.size().width):
+            #     lsObus[i].direction = rebond(lsObus[i].direction, 0)
                 lsObus.pop(i)
                 break
+            elif (lsObus[i].pos.y < 0 or lsObus[i].pos.y > pyautogui.size().height):
+            #     lsObus[i].direction = rebond(lsObus[i].direction, 90)
+                lsObus.pop(i)
+                break
+            
+            # lsObus[i].nbRebond -= 1
 
         self.update()
 
 # traitement
 lsTank.append(Tank("player"))
-for i in range(1):
-    lsTank.append(Tank("ia"))
 
 app = QApplication(sys.argv)
 w = Invisible()
@@ -406,5 +422,19 @@ def onClick():
         lsObus.append(Obus(direction, pos))
 
 mouse.on_click(lambda: onClick())
+
+def onKeyDown():
+    while True:
+        key = keyboard.read_key()
+        key = key.lower()
+        if key == conf.addTankKey:
+            lsTank.append(Tank("ia"))
+        elif key == conf.rmTankKey and len(lsTank) > 1:
+            lsTank.pop()
+        
+        time.sleep(1)
+tKeyDown = threading.Thread(target=onKeyDown)
+tKeyDown.setDaemon(True)
+tKeyDown.start()
 
 app.exec_()
