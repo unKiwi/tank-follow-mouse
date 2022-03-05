@@ -10,10 +10,10 @@ import math
 import threading
 
 from PyQt5.QtCore import Qt, QPoint
-from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QStyle
-from PyQt5 import QtCore, QtGui
-from PyQt5.QtGui import QPainter, QColor, QBrush, QPen, QPainterPath
+#from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QApplication, QMainWindow#, QLabel, QStyle
+#from PyQt5 import QtCore, QtGui
+from PyQt5.QtGui import QPainter, QColor#, QBrush, QPen, QPainterPath
 from PyQt5.QtCore import Qt
 
 class Struct(object): pass
