@@ -21,8 +21,8 @@ class Struct(object): pass
 # define config
 conf = Struct()
 conf.dist = 400
-conf.newGaz = 0.3
-conf.newChenille = 0.15
+conf.newGaz = 0.4
+conf.newChenille = 0.30
 conf.addTankKey = "a"
 conf.rmTankKey = "e"
 conf.color = Struct()
@@ -155,8 +155,10 @@ class Invisible(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setAttribute(Qt.WA_TransparentForMouseEvents, True)
+        self.setAttribute(Qt.WA_NoChildEventsForParent, True)
+        self.setWindowFlags(Qt.Window | Qt.X11BypassWindowManagerHint | Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.Tool)
 
         self.setGeometry(0, 0, pyautogui.size().width, pyautogui.size().height)
 
